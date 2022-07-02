@@ -30,7 +30,7 @@ class LoginController extends Controller
             if (Auth::attempt(['email' => $email, 'password' => $password])) {
                 return redirect()->route('home');
             } else {
-                Session::flash('error', 'Bạn đăng nhập sai tải khoản hoặc mật khẩu!');
+                Session::flash('error', 'Bạn đăng nhập sai tài khoản hoặc mật khẩu!');
                 return redirect()->back();
             }
         }
