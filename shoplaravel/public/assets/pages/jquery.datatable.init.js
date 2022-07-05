@@ -4,12 +4,16 @@
  * Datatables Js
  */
 
- 
+
 $(document).ready(function() {
-  $('#datatable').DataTable();
+  $('#datatable').DataTable({
+      "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.12.1/i18n/ja.json"
+      }
+  });
 
   $(document).ready(function() {
-      $('#datatable2').DataTable();  
+      $('#datatable2').DataTable();
   } );
 
   //Buttons examples
@@ -28,7 +32,7 @@ $(document).ready(function() {
             }
         }
     } );
-    
+
 } );
 
 /* Formatting function for row details - modify as you need */
@@ -49,7 +53,7 @@ function format ( d ) {
         '</tr>'+
     '</table>';
 }
- 
+
 $(document).ready(function() {
     var table = $('#child_rows').DataTable( {
         // "ajax": "../../plugins/datatables/objects.txt",
@@ -69,12 +73,12 @@ $(document).ready(function() {
         ],
         "order": [[1, 'asc']]
     } );
-     
+
     // Add event listener for opening and closing details
     $('#child_rows tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
- 
+
         if ( row.child.isShown() ) {
             // This row is already open - close it
             row.child.hide();
