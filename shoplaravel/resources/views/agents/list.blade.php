@@ -22,10 +22,24 @@
                             <th>支店コード</th>
                             <th>口座番号</th>
                             <th>担当者名</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
-
+                        @foreach($agents as $no => $item)
+                            <td>{{$no + 1}}</td>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->phone}}</td>
+                            <td>{{$item->bank_code}}</td>
+                            <td>{{$item->branch_code}}</td>
+                            <td>{{$item->account_no}}</td>
+                            <td>{{$item->curator}}</td>
+                            <td style="text-align: center">
+                                <a href="#" class="btn"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn"
+                                   onclick="return confirm('Bạn chắc chắn muốn xóa?')"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        @endforeach
                         </tbody>
                     </table>
 

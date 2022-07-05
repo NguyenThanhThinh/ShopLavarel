@@ -17,7 +17,8 @@ class AgentController extends Controller
      */
     public function index()
     {
-       return  view('agents.list');
+        $agents = Agent::get();
+       return  view('agents.list',compact('agents'));
     }
 
     /**
