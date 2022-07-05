@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth', 'timeout'], function (){
 
             Route::post('/add-agent',[AgentController::class,'store'])->name('store');
 
-            Route::get('/edit-agent/{id}',[AgentController::class,'edit'])->name('agent_edit');
+            Route::get('/edit/{id}',[AgentController::class,'edit'])->name('edit');
 
             Route::post('/update-agent/{id}',[AgentController::class,'update'])->name('agent_update');
 

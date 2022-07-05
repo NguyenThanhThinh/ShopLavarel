@@ -7,6 +7,7 @@
         <div class="card-header">
             <h3 class="card-title">代理店名保存</h3>
         </div>
+
         <!-- /.card-header -->
         <!-- form start -->
         <form role="form" method="post" action="{{route('store')}}">
@@ -31,17 +32,22 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="phone">電話番号</label>
-                    <div class="col-sm-2">
-                        <input  type="text" name="phone" class="form-control" value="{{old('address')}}">
+                    <div class="col">
+                        <input  type="text" name="phone1" class="form-control" value="{{old('phone1')}}">
                     </div>
                     <i  class="typcn typcn-minus"></i>
-                    <div class="col-sm-2">
-                        <input  type="text" name="phone" class="form-control" value="{{old('address')}}">
+                    <div class="col">
+                        <input  type="text" name="phone2" class="form-control" value="{{old('phone2')}}">
                     </div>
                     <i class="typcn typcn-minus"></i>
-                    <div class="col-sm-2">
-                        <input style="width: 82%" type="text" name="phone" class="form-control" value="{{old('address')}}">
+                    <div class="col">
+                        <input  type="text" name="phone3" class="form-control" value="{{old('phone3')}}">
                     </div>
+                     <div class="col-sm-4">
+                         @if (Session::has('error'))
+                             <p class="text-red"> {{ Session::get('error') }}</p>
+                         @endif
+                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="email">メールアドレス<span><i class="fa far fa-star"></i></span></label>

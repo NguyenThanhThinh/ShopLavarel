@@ -17,15 +17,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('address');
-            $table->string('phone');
-            $table->string('bank_code');
-            $table->string('branch_code');
-            $table->string('normal');
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('bank_code')->nullable();
+            $table->string('branch_code')->nullable();
+            $table->string('normal')->nullable();
             $table->string('account_no')->unique();
-            $table->string('curator');
+            $table->string('curator')->nullable();
             $table->string('line_url')->unique();
-            $table ->decimal('margin_rate');
+            $table ->decimal('margin_rate')->nullable();
             $table->timestamps();
         });
     }
