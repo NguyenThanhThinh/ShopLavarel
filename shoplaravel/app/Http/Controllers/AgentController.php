@@ -15,7 +15,7 @@ class AgentController extends Controller
      */
     public function index()
     {
-        echo "agent";
+       return  view('agents.list');
     }
 
     /**

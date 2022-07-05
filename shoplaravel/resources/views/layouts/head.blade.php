@@ -11,7 +11,7 @@
 
     <!-- jvectormap -->
     <link href="/plugins/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
-
+    @yield('css')
     <!-- App css -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/jquery-ui.min.css" rel="stylesheet">
