@@ -36,7 +36,7 @@
     <!-- Page Content-->
     <div class="page-content">
         <div class="container-fluid">
-
+            @yield('content')
         </div>
 
         <footer class="footer text-center text-sm-left">
