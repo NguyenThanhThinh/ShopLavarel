@@ -13,7 +13,7 @@ class StoreagentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,19 @@ class StoreagentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:100',
+            'email' => 'required|email|max:100',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => '代理店名を入力してください。',
+            'name.max' => '100⽂字未満で⼊⼒してください',
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => '正しい形式のメールアドレス',
+            'email.max' => '100⽂字未満で⼊⼒してください',
         ];
     }
 }

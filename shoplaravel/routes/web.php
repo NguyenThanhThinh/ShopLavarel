@@ -29,17 +29,19 @@ Route::get('/logout',[LogoutController::class,'getLogout'])->name('logout');
 Route::group(['middleware' => 'auth', 'timeout'], function (){
     Route::get('/home',[HomeController::class,'index'])->name('home');
 
-    Route::get('/agents',[AgentController::class,'index'])->name('agent_index');
 
-    Route::get('/create-agent',[AgentController::class,'create'])->name('agent_create');
+    Route::group(['prefix' => 'agents'], function () {
+            Route::get('/',[AgentController::class,'index'])->name('agent_index');
 
-    Route::post('/add-agent',[AgentController::class,'store'])->name('agent_store');
+            Route::get('/create',[AgentController::class,'create'])->name('create');
 
-    Route::get('/edit-agent/{id}',[AgentController::class,'edit'])->name('agent_edit');
+            Route::post('/add-agent',[AgentController::class,'store'])->name('store');
 
-    Route::post('/update-agent/{id}',[AgentController::class,'update'])->name('agent_update');
+            Route::get('/edit-agent/{id}',[AgentController::class,'edit'])->name('agent_edit');
 
-    Route::get('/delete-agent/{id}',[AgentController::class,'destroy'])->name('agent_destroy');
+            Route::post('/update-agent/{id}',[AgentController::class,'update'])->name('agent_update');
 
+            Route::get('/delete-agent/{id}',[AgentController::class,'destroy'])->name('agent_destroy');
+    });
 });
 

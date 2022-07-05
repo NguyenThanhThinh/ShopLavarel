@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\agent;
 use App\Http\Requests\StoreagentRequest;
 use App\Http\Requests\UpdateagentRequest;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AgentController extends Controller
 {
@@ -25,7 +27,7 @@ class AgentController extends Controller
      */
     public function create()
     {
-        //
+        return view('agents.create');
     }
 
     /**
@@ -36,7 +38,13 @@ class AgentController extends Controller
      */
     public function store(StoreagentRequest $request)
     {
-        //
+
+        $validator = Validator::make($request->all(), $request->rules(), $request->messages());
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput($request->input());
+        } else {
+            return redirect()->route('agent_index');
+        }
     }
 
     /**
