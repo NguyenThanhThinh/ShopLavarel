@@ -39,10 +39,12 @@ class AgentController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $rules = [
             'name' => 'required|max:100',
             'email' => 'required|email|max:100',
+            'phone1' => 'max:4',
+            'phone2' => 'max:4',
+            'phone3' => 'max:4'
         ];
         $message =[
             'name.required' => '代理店名を入力してください。',
@@ -50,7 +52,15 @@ class AgentController extends Controller
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => '正しい形式のメールアドレス',
             'email.max' => '100⽂字未満で⼊⼒してください',
+            'phone1.max' => '4⽂字未満で⼊⼒してください',
+            'phone2.max' => '4⽂字未満で⼊⼒してください',
+            'phone3.max' => '4⽂字未満で⼊⼒してください',
         ];
+        $email = $this->checkUniqueEmail($request['email']);
+        if($email){
+            Session::flash('error', 'メールアドレス号が既存しています。');
+            return redirect()->back()->withInput($request->input());
+        }
         $validator = Validator::make($request->all(), $rules, $message);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->input());
@@ -60,11 +70,7 @@ class AgentController extends Controller
             if(!empty($data['phone1']) && !empty($data['phone2']) && !empty($data['phone3'])){
                 $fullPhone = $data['phone1'] . '-' . $data['phone2']. '-' . $data['phone3'];
                 $data['phone'] = $fullPhone;
-            }else{
-                Session::flash('error', 'phone。');
-                return redirect()->back()->withErrors($validator)->withInput($request->input());
             }
-
             Agent::create($data);
             Session::flash('success', 'success');
             return redirect()->route('agent_index');
@@ -97,9 +103,9 @@ class AgentController extends Controller
             $agent['phone2'] = $arrayPhone[1];
             $agent['phone3'] = $arrayPhone[2];
         }else{
-            $agent['phone1'] = null;
-            $agent['phone2'] = null;
-            $agent['phone3'] = null;
+            $agent['phone1'] = "";
+            $agent['phone2'] = "";
+            $agent['phone3'] = "";
         }
 
         return view('agents.edit', compact('agent'));
@@ -126,5 +132,14 @@ class AgentController extends Controller
     public function destroy(agent $agent)
     {
         //
+    }
+
+    public function checkUniqueEmail($email){
+        $flag = false;
+        $agents = Agent::where('email', '=', $email)->first();
+        if ($agents !== null) {
+            $flag=true;
+        }
+        return $flag;
     }
 }

@@ -7,9 +7,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                   <button class="btn btn-primary">
-                       <i class="fas fa-plus-square"></i>
-                   </button>
+                    <a class="btn btn-primary" href="{{route('create')}}">
+                        <i class="fas fa-plus-square"></i>
+                    </a>
                 </div><!--end card-header-->
                 <div class="card-body">
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -27,18 +27,20 @@
                         </thead>
                         <tbody>
                         @foreach($agents as $no => $item)
-                            <td>{{$no + 1}}</td>
-                            <td>{{$item->name}}</td>
-                            <td>{{$item->phone}}</td>
-                            <td>{{$item->bank_code}}</td>
-                            <td>{{$item->branch_code}}</td>
-                            <td>{{$item->account_no}}</td>
-                            <td>{{$item->curator}}</td>
-                            <td style="text-align: center">
-                                <a href="#" class="btn"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn"
-                                   onclick="return confirm('Bạn chắc chắn muốn xóa?')"><i class="fas fa-trash-alt"></i></a>
-                            </td>
+                            <tr>
+                                <td>{{$no + 1}}</td>
+                                <td>{{$item->name}}</td>
+                                <td>{{$item->phone}}</td>
+                                <td>{{$item->bank_code}}</td>
+                                <td>{{$item->branch_code}}</td>
+                                <td>{{$item->account_no}}</td>
+                                <td>{{$item->curator}}</td>
+                                <td style="text-align: center">
+                                    <a href="{{route('edit', $item->id)}}" class="btn"><i class="fas fa-edit"></i></a>
+                                    <a href="#" class="btn"
+                                       onclick="return confirm('よろしいですか︖')"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -48,8 +50,6 @@
         </div> <!-- end col -->
     </div> <!-- end row -->
 @endsection
-
-
 @section('js')
     @include("layouts.datatables-js")
 @endsection

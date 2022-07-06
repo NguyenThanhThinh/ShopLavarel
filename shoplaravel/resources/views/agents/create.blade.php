@@ -5,7 +5,7 @@
 @section('content')
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">代理店名保存</h3>
+            <h3 class="card-title">代理店登録追加</h3>
         </div>
 
         <!-- /.card-header -->
@@ -33,20 +33,27 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="phone">電話番号</label>
                     <div class="col">
-                        <input  type="text" name="phone1" class="form-control" value="{{old('phone1')}}">
+                        <input  type="number" name="phone1" placeholder="0909" class="form-control" value="{{old('phone1')}}">
+                        @error('phone1')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
                     </div>
                     <i  class="typcn typcn-minus"></i>
                     <div class="col">
-                        <input  type="text" name="phone2" class="form-control" value="{{old('phone2')}}">
+                        <input  type="number" name="phone2" placeholder="1234" class="form-control" value="{{old('phone2')}}">
+                        @error('phone2')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
                     </div>
                     <i class="typcn typcn-minus"></i>
                     <div class="col">
-                        <input  type="text" name="phone3" class="form-control" value="{{old('phone3')}}">
+                        <input  type="number" name="phone3" placeholder="5678" class="form-control" value="{{old('phone3')}}">
+                        @error('phone3')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
                     </div>
                      <div class="col-sm-4">
-                         @if (Session::has('error'))
-                             <p class="text-red"> {{ Session::get('error') }}</p>
-                         @endif
+
                      </div>
                 </div>
                 <div class="form-group row">
@@ -58,6 +65,9 @@
                         @error('email')
                         <p class="text-red">{{ $message }}</p>
                         @enderror
+                        @if (Session::has('error'))
+                            <p class="text-red"> {{ Session::get('error') }}</p>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
@@ -99,14 +109,14 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="margin_rate">マージン率</label>
                     <div class="col-sm-6">
-                        <input type="text" name="margin_rate" class="form-control" value="{{old('margin_rate')}}">
+                        <input type="number" name="margin_rate" class="form-control" value="{{old('margin_rate')}}">
                     </div>
                 </div>
             </div>
             <!-- /.card-body -->
 
             <div class="card-footer">
-                <a class="btn btn-primary float-left  border-radius-5" href="#" style="margin-right: 5px">
+                <a class="btn btn-primary float-left  border-radius-5" href="{{route('agent_index')}}" style="margin-right: 5px">
                     キャンセル
                 </a>
                 <button type="submit" class="btn btn-primary  border-radius-5">保存</button>
