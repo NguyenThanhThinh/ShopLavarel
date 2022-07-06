@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
-            $table->string('bank_code')->unique()->nullable();
-            $table->string('branch_code')->unique()->nullable();
+            $table->string('bank_code')->nullable()->unique();
+            $table->string('branch_code')->nullable()->unique();
             $table->string('normal')->nullable();
-            $table->string('account_no')->unique()->nullable();
+            $table->string('account_no')->nullable()->unique();
             $table->string('curator')->nullable();
-            $table->string('line_url')->unique()->nullable();
+            $table->string('line_url')->nullable()->unique();
             $table ->decimal('margin_rate')->nullable();
             $table->timestamps();
         });

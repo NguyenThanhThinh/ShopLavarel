@@ -42,14 +42,15 @@ class AgentController extends Controller
     {
         $rules = [
             'name' => 'required|max:100',
-            'email' => 'required|email|max:100',
+            'email' => "required|max:100|email|unique:agents,email",
             'phone1' => 'max:4',
             'phone2' => 'max:4',
-            'phone3' => 'max:4'
+            'phone3' => 'max:4',
         ];
         $messages =[
             'name.required' => '代理店名を入力してください。',
             'name.max' => '100⽂字未満で⼊⼒してください',
+            'email.unique' => 'メールアドレスを入力してください。',
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => '正しい形式のメールアドレス',
             'email.max' => '100⽂字未満で⼊⼒してください',
@@ -57,26 +58,6 @@ class AgentController extends Controller
             'phone2.max' => '4⽂字未満で⼊⼒してください',
             'phone3.max' => '4⽂字未満で⼊⼒してください',
         ];
-        $email = $this->checkUniqueColumn('email',$request['email']);
-        if($email){
-            return redirect()->back()->withInput()->withErrors(['email' => 'メールアドが既存しています。']);
-        }
-        $bankCode = $this->checkUniqueColumn('bank_code',$request['bank_code']);
-        if($bankCode){
-            return redirect()->back()->withInput()->withErrors(['bank_code' => '銀行コードが既存しています。']);
-        }
-        $branchCode = $this->checkUniqueColumn('branch_code',$request['branch_code']);
-        if($branchCode){
-            return redirect()->back()->withInput()->withErrors(['branch_code' => '支店コードが既存しています。']);
-        }
-        $accountNo = $this->checkUniqueColumn('account_no',$request['account_no']);
-        if($accountNo){
-            return redirect()->back()->withInput()->withErrors(['account_no' => '口座番号が既存しています。']);
-        }
-        $lineUrl = $this->checkUniqueColumn('line_url',$request['line_url']);
-        if($lineUrl){
-            return redirect()->back()->withInput()->withErrors(['line_url' => 'LINE IDorURLが既存しています。']);
-        }
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->input());
@@ -84,7 +65,7 @@ class AgentController extends Controller
             $data = $request->all();
             $data['phone'] = "";
             if(!empty($data['phone1']) && !empty($data['phone2']) && !empty($data['phone3'])){
-                $fullPhone = $data['phone1'] . '-' . $data['phone2']. '-' . $data['phone3'];
+                $fullPhone = trim($data['phone1']) . '-' . trim($data['phone2']). '-' . trim($data['phone3']);
                 $data['phone'] = $fullPhone;
                 $phone = $this->checkUniqueColumn('phone',$fullPhone);
                 if($phone){
@@ -143,7 +124,7 @@ class AgentController extends Controller
     {
         $rules = [
             'name' => 'required|max:100',
-            'email' => "required|unique:agents|max:100",
+            'email' => "required|max:100|email|unique:agents,email,$id",
             'phone1' => 'max:4',
             'phone2' => 'max:4',
             'phone3' => 'max:4'
@@ -152,6 +133,7 @@ class AgentController extends Controller
             'name.required' => '代理店名を入力してください。',
             'name.max' => '100⽂字未満で⼊⼒してください',
             'email.required' => 'メールアドレスを入力してください。',
+            'email.unique' => 'メールアドレスを入力してください。',
             'email.email' => '正しい形式のメールアドレス',
             'email.max' => '100⽂字未満で⼊⼒してください',
             'phone1.max' => '4⽂字未満で⼊⼒してください',

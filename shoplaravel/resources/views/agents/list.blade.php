@@ -12,6 +12,12 @@
                     </a>
                 </div><!--end card-header-->
                 <div class="card-body">
+                    @if (Session::has('success'))
+                        <p class="text-success">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            {{ Session::get('success') }}
+                        </p>
+                    @endif
                     <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
