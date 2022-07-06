@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('agent', function (Blueprint $table) {
+        Schema::create('agents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
-            $table->string('bank_code')->nullable();
-            $table->string('branch_code')->nullable();
+            $table->string('bank_code')->unique()->nullable();
+            $table->string('branch_code')->unique()->nullable();
             $table->string('normal')->nullable();
             $table->string('account_no')->unique()->nullable();
             $table->string('curator')->nullable();

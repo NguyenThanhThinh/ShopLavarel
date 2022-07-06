@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateagentRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AgentController extends Controller
 {
@@ -46,7 +47,7 @@ class AgentController extends Controller
             'phone2' => 'max:4',
             'phone3' => 'max:4'
         ];
-        $message =[
+        $messages =[
             'name.required' => '代理店名を入力してください。',
             'name.max' => '100⽂字未満で⼊⼒してください',
             'email.required' => 'メールアドレスを入力してください。',
@@ -58,10 +59,25 @@ class AgentController extends Controller
         ];
         $email = $this->checkUniqueColumn('email',$request['email']);
         if($email){
-            Session::flash('error', 'メールアドレス号が既存しています。');
-            return redirect()->back()->withInput($request->input());
+            return redirect()->back()->withInput()->withErrors(['email' => 'メールアドが既存しています。']);
         }
-        $validator = Validator::make($request->all(), $rules, $message);
+        $bankCode = $this->checkUniqueColumn('bank_code',$request['bank_code']);
+        if($bankCode){
+            return redirect()->back()->withInput()->withErrors(['bank_code' => '銀行コードが既存しています。']);
+        }
+        $branchCode = $this->checkUniqueColumn('branch_code',$request['branch_code']);
+        if($branchCode){
+            return redirect()->back()->withInput()->withErrors(['branch_code' => '支店コードが既存しています。']);
+        }
+        $accountNo = $this->checkUniqueColumn('account_no',$request['account_no']);
+        if($accountNo){
+            return redirect()->back()->withInput()->withErrors(['account_no' => '口座番号が既存しています。']);
+        }
+        $lineUrl = $this->checkUniqueColumn('line_url',$request['line_url']);
+        if($lineUrl){
+            return redirect()->back()->withInput()->withErrors(['line_url' => 'LINE IDorURLが既存しています。']);
+        }
+        $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->input());
         } else {
@@ -70,6 +86,11 @@ class AgentController extends Controller
             if(!empty($data['phone1']) && !empty($data['phone2']) && !empty($data['phone3'])){
                 $fullPhone = $data['phone1'] . '-' . $data['phone2']. '-' . $data['phone3'];
                 $data['phone'] = $fullPhone;
+                $phone = $this->checkUniqueColumn('phone',$fullPhone);
+                if($phone){
+                    Session::flash('error', '電話番号が既存しています。');
+                    return redirect()->back()->withInput($request->input());
+                }
             }
             Agent::create($data);
             Session::flash('success', 'success');
@@ -118,9 +139,33 @@ class AgentController extends Controller
      * @param  \App\Models\agent  $agent
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateagentRequest $request, agent $agent)
+    public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'name' => 'required|max:100',
+            'email' => "required|unique:agents|max:100",
+            'phone1' => 'max:4',
+            'phone2' => 'max:4',
+            'phone3' => 'max:4'
+        ];
+        $messages =[
+            'name.required' => '代理店名を入力してください。',
+            'name.max' => '100⽂字未満で⼊⼒してください',
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => '正しい形式のメールアドレス',
+            'email.max' => '100⽂字未満で⼊⼒してください',
+            'phone1.max' => '4⽂字未満で⼊⼒してください',
+            'phone2.max' => '4⽂字未満で⼊⼒してください',
+            'phone3.max' => '4⽂字未満で⼊⼒してください',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            $agent = Agent::FindOrFail($id);
+        }
+
     }
 
     /**
@@ -142,6 +187,8 @@ class AgentController extends Controller
      */
     public function checkUniqueColumn($column,$value){
         $flag = false;
+        if(empty($value)) return $flag;
+
         $agents = Agent::where($column, '=', $value)->first();
         if ($agents !== null) {
             $flag=true;

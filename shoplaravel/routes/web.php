@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth', 'timeout'], function (){
 
             Route::get('/edit/{id}',[AgentController::class,'edit'])->name('edit');
 
-            Route::post('/update-agent/{id}',[AgentController::class,'update'])->name('agent_update');
+            Route::post('/edit/{id}',[AgentController::class,'update'])->name('edit');
 
             Route::get('/delete-agent/{id}',[AgentController::class,'destroy'])->name('agent_destroy');
     });

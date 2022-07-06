@@ -53,7 +53,9 @@
                         @enderror
                     </div>
                     <div class="col-sm-4">
-
+                        @if (Session::has('error'))
+                            <p class="text-red"> {{ Session::get('error') }}</p>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
@@ -72,11 +74,21 @@
                     <div class="col-sm-6">
                         <input type="text" name="bank_code" class="form-control" value="{{old('bank_code') ? old('bank_code') : $agent->bank_code}}">
                     </div>
+                    <div class="col-sm-4">
+                        @error('bank_code')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="branch_code">支店コード</label>
                     <div class="col-sm-6">
                         <input type="text" name="branch_code" class="form-control" value="{{old('branch_code') ? old('branch_code') : $agent->branch_code}}">
+                    </div>
+                    <div class="col-sm-4">
+                        @error('branch_code')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="form-group row">
@@ -90,6 +102,11 @@
                     <div class="col-sm-6">
                         <input type="text" name="account_no" class="form-control" value="{{old('account_no') ? old('account_no') : $agent->account_no}}">
                     </div>
+                    <div class="col-sm-4">
+                        @error('account_no')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="curator">担当者名</label>
@@ -101,6 +118,11 @@
                     <label class="col-sm-2 col-form-label" for="line_url">LINE IDorURL</label>
                     <div class="col-sm-6">
                         <input type="text" name="line_url" class="form-control" value="{{old('line_url') ? old('line_url') : $agent->line_url}}">
+                    </div>
+                    <div class="col-sm-4">
+                        @error('line_url')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
                 <div class="form-group row">
