@@ -56,7 +56,7 @@ class AgentController extends Controller
             'phone2.max' => '4⽂字未満で⼊⼒してください',
             'phone3.max' => '4⽂字未満で⼊⼒してください',
         ];
-        $email = $this->checkUniqueEmail($request['email']);
+        $email = $this->checkUniqueColumn('email',$request['email']);
         if($email){
             Session::flash('error', 'メールアドレス号が既存しています。');
             return redirect()->back()->withInput($request->input());
@@ -134,9 +134,15 @@ class AgentController extends Controller
         //
     }
 
-    public function checkUniqueEmail($email){
+    /**
+     * check exist of a column
+     *
+     * @param  $column,$value
+     * @return boolean
+     */
+    public function checkUniqueColumn($column,$value){
         $flag = false;
-        $agents = Agent::where('email', '=', $email)->first();
+        $agents = Agent::where($column, '=', $value)->first();
         if ($agents !== null) {
             $flag=true;
         }
