@@ -41,7 +41,9 @@ Route::group(['middleware' => 'auth', 'timeout'], function (){
 
             Route::post('/edit/{id}',[AgentController::class,'update'])->name('edit');
 
-            Route::delete('/delete',[AgentController::class,'destroy'])->name('destroy');
+            Route::delete('/delete/{id}',[AgentController::class,'delete']);
+
+
     });
 });
 

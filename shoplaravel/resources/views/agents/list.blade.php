@@ -4,7 +4,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css"
           integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
 @endsection
 @section('css-agent')
     <link rel="stylesheet" href="{{ asset('css/agent.css') }}">
@@ -51,7 +52,6 @@
                         @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div> <!-- end col -->
@@ -62,33 +62,42 @@
     @include("layouts.message")
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.js"></script>
     <script>
-        $('.delete-agent').on('click',function(e){
+        $('.delete-agent').on('click', function (e) {
             e.preventDefault();
-            var $id = $(this).attr("data-id");
+            let $id = $(this).attr("data-id");
             swal.fire({
-                    title: "よろしいですか︖",
-                    text: "を削除します。よろしいですか︖",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#6A9944",
-                    confirmButtonText: "OK",
-                    cancelButtonText: "キャンセル",
-                    closeOnConfirm: true
-                }).then((willDelete) => {
-                const url = "{{url('delete')}}";
-                  if(willDelete.isConfirmed){
-                      $.ajax({
-                          url: `${url}/${$id}`,
-                          type: "DELETE",
-                          cache: false,
-                          data:{
-                              _token:'{{ csrf_token() }}'
-                          },
-                          success: function(dataResult){
-
-                          }
-                      });
-                  }
+                title: "よろしいですか︖",
+                text: "を削除します。よろしいですか︖",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#6A9944",
+                confirmButtonText: "OK",
+                cancelButtonText: "キャンセル",
+                closeOnConfirm: true
+            }).then((isFlag) => {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+                if (isFlag.isConfirmed) {
+                    $.ajax({
+                        url: `agents/delete/${$id}`,
+                        type: "DELETE",
+                        cache: false,
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                        },
+                        success: function (res) {
+                            if (res === 'success') {
+                                toastr.success("削除しました");
+                                window.location.reload();
+                            } else {
+                                toastr.error("削除できません。");
+                            }
+                        }
+                    });
+                }
             });
 
         });

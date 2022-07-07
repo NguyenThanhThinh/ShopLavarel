@@ -196,22 +196,18 @@ class AgentController extends Controller
      * @param \App\Models\agent $agent
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $agent = Agent::find($id);
         if ($agent) {
             if ($agent->delete()) {
-                Session::flash('success', '削除しました');
-                return redirect()->route('agent_index');
+                return response('success', 200);
             } else {
-                Session::flash('error', '削除できません。');
-                return redirect()->back();
+                return response('error', 404);
             }
         } else {
-            Session::flash('error', '削除できません。');
-            return redirect()->back();
+            return response('error', 404);
         }
-
     }
 
     /**

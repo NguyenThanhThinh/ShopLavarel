@@ -11,6 +11,7 @@
 <script src="/plugins/apex-charts/apexcharts.min.js"></script>
 <script src="/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
 <script src="/plugins/jvectormap/jquery-jvectormap-us-aea-en.js"></script>
-@yield('js')
+
 <!-- App js -->
 <script src="/assets/js/app.js"></script>
+@yield('js')
