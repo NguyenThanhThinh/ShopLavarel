@@ -14,7 +14,8 @@
             @csrf
             <div class="card-body">
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="name">代理店名 <span><i class="fa far fa-star"></i></span></label>
+                    <label class="col-sm-2 col-form-label" for="name">代理店名 <span><i
+                                class="fa far fa-star"></i></span></label>
                     <div class="col-sm-6">
                         <input type="text" name="name" class="form-control" value="{{old('name')}}">
                     </div>
@@ -33,33 +34,37 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="phone">電話番号</label>
                     <div class="col">
-                        <input  type="number" name="phone1" placeholder="0909" class="form-control" value="{{old('phone1')}}">
+                        <input type="number" name="phone1" placeholder="0909" class="form-control"
+                               value="{{old('phone1')}}">
                         @error('phone1')
                         <p class="text-red">{{ $message }}</p>
                         @enderror
                     </div>
-                    <i  class="typcn typcn-minus"></i>
+                    <i class="typcn typcn-minus"></i>
                     <div class="col">
-                        <input  type="number" name="phone2" placeholder="1234" class="form-control" value="{{old('phone2')}}">
+                        <input type="number" name="phone2" placeholder="1234" class="form-control"
+                               value="{{old('phone2')}}">
                         @error('phone2')
                         <p class="text-red">{{ $message }}</p>
                         @enderror
                     </div>
                     <i class="typcn typcn-minus"></i>
                     <div class="col">
-                        <input  type="number" name="phone3" placeholder="5678" class="form-control" value="{{old('phone3')}}">
+                        <input type="number" name="phone3" placeholder="5678" class="form-control"
+                               value="{{old('phone3')}}">
                         @error('phone3')
                         <p class="text-red">{{ $message }}</p>
                         @enderror
                     </div>
-                     <div class="col-sm-4">
-                         @if (Session::has('error'))
-                             <p class="text-red"> {{ Session::get('error') }}</p>
-                         @endif
-                     </div>
+                    <div class="col-sm-4">
+                        @if (Session::has('error'))
+                            <p class="text-red"> {{ Session::get('error') }}</p>
+                        @endif
+                    </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="email">メールアドレス<span><i class="fa far fa-star"></i></span></label>
+                    <label class="col-sm-2 col-form-label" for="email">メールアドレス<span><i
+                                class="fa far fa-star"></i></span></label>
                     <div class="col-sm-6">
                         <input type="text" name="email" class="form-control" value="{{old('email')}}">
                     </div>
@@ -135,7 +140,8 @@
             <!-- /.card-body -->
 
             <div class="card-footer">
-                <a class="btn btn-primary float-left  border-radius-5" href="{{route('agent_index')}}" style="margin-right: 5px">
+                <a class="btn btn-primary float-left  border-radius-5" href="{{route('agent_index')}}"
+                   style="margin-right: 5px">
                     キャンセル
                 </a>
                 <button type="submit" class="btn btn-primary  border-radius-5">保存</button>

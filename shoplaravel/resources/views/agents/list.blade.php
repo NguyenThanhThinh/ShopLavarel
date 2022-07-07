@@ -13,12 +13,23 @@
                 </div><!--end card-header-->
                 <div class="card-body">
                     @if (Session::has('success'))
-                        <p class="text-success">
-                            <i class="fa fa-check" aria-hidden="true"></i>
+                        <div class="alert alert-success text-center" role="alert">
                             {{ Session::get('success') }}
-                        </p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     @endif
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger text-center" role="alert">
+                            {{ Session::get('error') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                           style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
                             <th>No</th>
@@ -43,7 +54,7 @@
                                 <td>{{$item->curator}}</td>
                                 <td style="text-align: center">
                                     <a href="{{route('edit', $item->id)}}" class="btn"><i class="fas fa-edit"></i></a>
-                                    <a href="#" class="btn"
+                                    <a href="{{route('destroy', $item->id)}}" class="btn"
                                        onclick="return confirm('よろしいですか︖')"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
