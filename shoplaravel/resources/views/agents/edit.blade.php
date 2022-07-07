@@ -107,6 +107,11 @@
                         <input type="text" name="normal" class="form-control"
                                value="{{old('normal') ? old('normal') : $agent->normal}}">
                     </div>
+                    <div class="col-sm-4">
+                        @error('normal')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="account_no">口座番号</label>
@@ -126,6 +131,11 @@
                         <input type="text" name="curator" class="form-control"
                                value="{{old('curator') ? old('curator') : $agent->curator}}">
                     </div>
+                    <div class="col-sm-4">
+                        @error('curator')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="line_url">LINE IDorURL</label>
@@ -142,8 +152,13 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="margin_rate">マージン率</label>
                     <div class="col-sm-6">
-                        <input type="number" name="margin_rate" class="form-control"
+                        <input type="text" name="margin_rate" class="form-control"
                                value="{{old('margin_rate') ? old('margin_rate') : $agent->margin_rate}}">
+                    </div>
+                    <div class="col-sm-4">
+                        @error('margin_rate')
+                        <p class="text-red">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -158,4 +173,19 @@
             </div>
         </form>
     </div>
+@endsection
+@section('js')
+    <script src="/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script>
+    <script>
+        (function () {
+            $("input[name='margin_rate']").TouchSpin({
+                min: 0,
+                max: 100,
+                step: 0.1,
+                decimals: 2,
+                maxboostedstep: 10,
+                postfix: '%'
+            });
+        })();
+    </script>
 @endsection

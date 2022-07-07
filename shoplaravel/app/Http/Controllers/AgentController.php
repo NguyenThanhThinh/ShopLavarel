@@ -16,7 +16,7 @@ class AgentController extends Controller
      */
     public function index()
     {
-        $agents = Agent::get();
+        $agents = Agent::orderBy('created_at', 'desc')->get();
         return view('agents.list', compact('agents'));
     }
 
@@ -29,22 +29,36 @@ class AgentController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|max:100',
-            'email' => "required|max:100|email|unique:agents,email",
+            'name' => 'required|max:255',
+            'email' => "required|max:200|email|unique:agents,email",
             'phone1' => 'max:4',
             'phone2' => 'max:4',
             'phone3' => 'max:4',
+            'address' => 'max:255',
+            'bank_code' => 'max:50',
+            'branch_code' => 'max:50',
+            'normal' => 'max:200',
+            'account_no' => 'max:50',
+            'curator' => 'max:200',
+            'line_url' => 'max:200',
         ];
         $messages = [
             'name.required' => '代理店名を入力してください。',
-            'name.max' => '100⽂字未満で⼊⼒してください',
+            'name.max' => '255⽂字未満で⼊⼒してください',
+            'address.max' => '255⽂字未満で⼊⼒してください',
+            'bank_code.max' => '50⽂字未満で⼊⼒してください',
+            'branch_code.max' => '50⽂字未満で⼊⼒してください',
+            'normal.max' => '200⽂字未満で⼊⼒してください',
+            'account_no.max' => '50⽂字未満で⼊⼒してください',
+            'curator.max' => '200⽂字未満で⼊⼒してください',
+            'line_url.max' => '200⽂字未満で⼊⼒してください',
             'email.unique' => 'メールアドレスを入力してください。',
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => '正しい形式のメールアドレス',
-            'email.max' => '100⽂字未満で⼊⼒してください',
+            'email.max' => '200⽂字未満で⼊⼒してください',
             'phone1.max' => '4⽂字未満で⼊⼒してください',
             'phone2.max' => '4⽂字未満で⼊⼒してください',
-            'phone3.max' => '4⽂字未満で⼊⼒してください',
+            'phone3.max' => '4⽂字未満で⼊⼒してください'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -120,11 +134,25 @@ class AgentController extends Controller
             'email' => "required|max:100|email|unique:agents,email,$id",
             'phone1' => 'max:4',
             'phone2' => 'max:4',
-            'phone3' => 'max:4'
+            'phone3' => 'max:4',
+            'address' => 'max:255',
+            'bank_code' => 'max:50',
+            'branch_code' => 'max:50',
+            'normal' => 'max:200',
+            'account_no' => 'max:50',
+            'curator' => 'max:200',
+            'line_url' => 'max:200'
         ];
         $messages = [
             'name.required' => '代理店名を入力してください。',
             'name.max' => '100⽂字未満で⼊⼒してください',
+            'address.max' => '255⽂字未満で⼊⼒してください',
+            'bank_code.max' => '50⽂字未満で⼊⼒してください',
+            'branch_code.max' => '50⽂字未満で⼊⼒してください',
+            'normal.max' => '200⽂字未満で⼊⼒してください',
+            'account_no.max' => '50⽂字未満で⼊⼒してください',
+            'curator.max' => '200⽂字未満で⼊⼒してください',
+            'line_url.max' => '200⽂字未満で⼊⼒してください',
             'email.required' => 'メールアドレスを入力してください。',
             'email.unique' => 'メールアドレスを入力してください。',
             'email.email' => '正しい形式のメールアドレス',

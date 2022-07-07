@@ -30,7 +30,7 @@
                     @endif
                     <div class="group">
                         <label for="password" class="label">Mật khẩu</label>
-                        <input id="password" type="password" name="password" class="input" data-type="password">
+                        <input id="password" type="password" name="password" class="input" data-type="password" value="{{old('password')}}">
                     </div>
                     @if($errors->has('password'))
                         <p class="text-danger" style="color: red">{{ $errors->first('password') }}</p>

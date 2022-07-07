@@ -15,17 +15,17 @@ return new class extends Migration
     {
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('bank_code')->nullable();
-            $table->string('branch_code')->nullable();
-            $table->string('normal')->nullable();
-            $table->string('account_no')->nullable();
-            $table->string('curator')->nullable();
-            $table->string('line_url')->nullable();
-            $table ->decimal('margin_rate')->nullable();
+            $table->string('name',255);
+            $table->string('email',255)->unique();
+            $table->string('address',255)->nullable();
+            $table->string('phone',15)->nullable();
+            $table->string('bank_code',50)->nullable();
+            $table->string('branch_code',50)->nullable();
+            $table->string('normal',200)->nullable();
+            $table->string('account_no',50)->nullable();
+            $table->string('curator',200)->nullable();
+            $table->string('line_url',200)->nullable();
+            $table ->double('margin_rate',100)->nullable();
             $table->timestamps();
         });
     }

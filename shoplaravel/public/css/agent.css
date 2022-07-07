@@ -6,4 +6,12 @@ p.text-red {
     color: red;
 }
 
+.toast.toast-success {
+    background-color: #51a351 !important;
+}
+
+.toast.toast-error {
+    background-color: red !important;
+}
+
 

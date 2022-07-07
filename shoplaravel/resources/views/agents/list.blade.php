@@ -1,6 +1,13 @@
 @extends('layouts.home')
 @section('css')
     @include('layouts.datatables-css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css"
+          integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
+@endsection
+@section('css-agent')
+    <link rel="stylesheet" href="{{ asset('css/agent.css') }}">
 @endsection
 @section('content')
     <div class="row">
@@ -12,23 +19,7 @@
                     </a>
                 </div><!--end card-header-->
                 <div class="card-body">
-                    @if (Session::has('success'))
-                        <div class="alert alert-success text-center" role="alert">
-                            {{ Session::get('success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    @if (Session::has('error'))
-                        <div class="alert alert-danger text-center" role="alert">
-                            {{ Session::get('error') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                    <table id="datatable" class="table table-bordered  dt-responsive nowrap"
                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
@@ -46,16 +37,15 @@
                         @foreach($agents as $no => $item)
                             <tr>
                                 <td>{{$no + 1}}</td>
-                                <td>{{$item->name}}</td>
+                                <td>{{ Str::limit($item->name, 13) }}</td>
                                 <td>{{$item->phone}}</td>
-                                <td>{{$item->bank_code}}</td>
-                                <td>{{$item->branch_code}}</td>
-                                <td>{{$item->account_no}}</td>
-                                <td>{{$item->curator}}</td>
-                                <td style="text-align: center">
+                                <td>{{ Str::limit($item->bank_code, 13) }}</td>
+                                <td>{{ Str::limit($item->branch_code, 13) }}</td>
+                                <td>{{ Str::limit($item->account_no, 13) }}</td>
+                                <td>{{ Str::limit($item->curator, 13) }}</td>
+                                <td>
                                     <a href="{{route('edit', $item->id)}}" class="btn"><i class="fas fa-edit"></i></a>
-                                    <a href="{{route('destroy', $item->id)}}" class="btn"
-                                       onclick="return confirm('よろしいですか︖')"><i class="fas fa-trash-alt"></i></a>
+                                    <a class="delete-agent" data-id="{{$item->id}}"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -69,4 +59,39 @@
 @endsection
 @section('js')
     @include("layouts.datatables-js")
+    @include("layouts.message")
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.js"></script>
+    <script>
+        $('.delete-agent').on('click',function(e){
+            e.preventDefault();
+            var $id = $(this).attr("data-id");
+            swal.fire({
+                    title: "よろしいですか︖",
+                    text: "を削除します。よろしいですか︖",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#6A9944",
+                    confirmButtonText: "OK",
+                    cancelButtonText: "キャンセル",
+                    closeOnConfirm: true
+                }).then((willDelete) => {
+                const url = "{{url('delete')}}";
+                  if(willDelete.isConfirmed){
+                      $.ajax({
+                          url: `${url}/${$id}`,
+                          type: "DELETE",
+                          cache: false,
+                          data:{
+                              _token:'{{ csrf_token() }}'
+                          },
+                          success: function(dataResult){
+
+                          }
+                      });
+                  }
+            });
+
+        });
+    </script>
+    </script>
 @endsection

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +29,7 @@
 <div class="page-wrapper">
     <!-- Top Bar Start -->
     <div class="topbar">
-      @include("layouts.topbar")
+        @include("layouts.topbar")
     </div>
 
     <!-- Page Content-->
@@ -40,7 +39,8 @@
         </div>
 
         <footer class="footer text-center text-sm-left">
-            &copy; 2022 Dastyle <span class="d-none d-sm-inline-block float-right">Crafted with <i class="mdi mdi-heart text-danger"></i> by Mannatthemes</span>
+            &copy; 2022 Dastyle <span class="d-none d-sm-inline-block float-right">Crafted with <i
+                    class="mdi mdi-heart text-danger"></i> by Mannatthemes</span>
         </footer><!--end footer-->
     </div>
     <!-- end page content -->
