@@ -52,7 +52,6 @@ class AgentController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
-            //dd($validator['data']);
             return redirect()->back()->withErrors($validator)->withInput($request->input());
         } else {
             $data = $request->all();
