@@ -9,28 +9,18 @@ use Illuminate\Support\Facades\Validator;
 
 class AgentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $agents = Agent::orderBy('created_at', 'desc')->get();
         return view('agents.list', compact('agents'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \App\Http\Requests\StoreagentRequest $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
             'name' => 'required|max:255',
-            'email' => "required|max:200|email|unique:agents,email",
+            'email' => "required|max:100|email|unique:agents,email",
             'phone1' => 'max:4',
             'phone2' => 'max:4',
             'phone3' => 'max:4',
@@ -55,17 +45,25 @@ class AgentController extends Controller
             'email.unique' => 'メールアドレスを入力してください。',
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => '正しい形式のメールアドレス',
-            'email.max' => '200⽂字未満で⼊⼒してください',
+            'email.max' => '100⽂字未満で⼊⼒してください',
             'phone1.max' => '4⽂字未満で⼊⼒してください',
             'phone2.max' => '4⽂字未満で⼊⼒してください',
             'phone3.max' => '4⽂字未満で⼊⼒してください'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
+            //dd($validator['data']);
             return redirect()->back()->withErrors($validator)->withInput($request->input());
         } else {
             $data = $request->all();
             $data['phone'] = "";
+            if (!empty($data['phone1']) || !empty($data['phone2']) || !empty($data['phone3'])) {
+                $fullPhone = trim($data['phone1']) . '-' . trim($data['phone2']) . '-' . trim($data['phone3']);
+                if (strlen($fullPhone) < 14) {
+                    Session::flash('error', '電話番号が無効です');
+                    return redirect()->back()->withErrors($validator)->withInput($request->input());
+                }
+            }
             if (!empty($data['phone1']) && !empty($data['phone2']) && !empty($data['phone3'])) {
                 $fullPhone = trim($data['phone1']) . '-' . trim($data['phone2']) . '-' . trim($data['phone3']);
                 $data['phone'] = $fullPhone;
@@ -76,33 +74,11 @@ class AgentController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('agents.create');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\agent $agent
-     * @return \Illuminate\Http\Response
-     */
-    public function show(agent $agent)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\agent $agent
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $agent = Agent::FindOrFail($id);
@@ -120,21 +96,14 @@ class AgentController extends Controller
         return view('agents.edit', compact('agent'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \App\Http\Requests\UpdateagentRequest $request
-     * @param \App\Models\agent $agent
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $rules = [
             'name' => 'required|max:100',
             'email' => "required|max:100|email|unique:agents,email,$id",
-            'phone1' => 'max:4',
-            'phone2' => 'max:4',
-            'phone3' => 'max:4',
+            'phone1' => 'max:4|min:4',
+            'phone2' => 'max:4|min:4',
+            'phone3' => 'max:4|min:4',
             'address' => 'max:255',
             'bank_code' => 'max:50',
             'branch_code' => 'max:50',
@@ -157,9 +126,12 @@ class AgentController extends Controller
             'email.unique' => 'メールアドレスを入力してください。',
             'email.email' => '正しい形式のメールアドレス',
             'email.max' => '100⽂字未満で⼊⼒してください',
+            'phone1.min' => '4文字以上入力してください',
             'phone1.max' => '4⽂字未満で⼊⼒してください',
             'phone2.max' => '4⽂字未満で⼊⼒してください',
+            'phone2.min' => '4文字以上入力してください',
             'phone3.max' => '4⽂字未満で⼊⼒してください',
+            'phone3.min' => '4文字以上入力してください',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -169,6 +141,13 @@ class AgentController extends Controller
             $agent = Agent::FindOrFail($id);
             $data = $request->all();
             $agent->phone = "";
+            if (!empty($data['phone1']) || !empty($data['phone2']) || !empty($data['phone3'])) {
+                $fullPhone = trim($data['phone1']) . '-' . trim($data['phone2']) . '-' . trim($data['phone3']);
+                if (strlen($fullPhone) < 14) {
+                    Session::flash('error', '電話番号が無効です');
+                    return redirect()->back()->withErrors($validator)->withInput($request->input());
+                }
+            }
             if (!empty($data['phone1']) && !empty($data['phone2']) && !empty($data['phone3'])) {
                 $fullPhone = trim($data['phone1']) . '-' . trim($data['phone2']) . '-' . trim($data['phone3']);
                 $agent->phone = $fullPhone;
@@ -190,12 +169,6 @@ class AgentController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\agent $agent
-     * @return \Illuminate\Http\Response
-     */
     public function delete($id)
     {
         $agent = Agent::find($id);
@@ -210,21 +183,4 @@ class AgentController extends Controller
         }
     }
 
-    /**
-     * check exist of a column
-     *
-     * @param  $column ,$value
-     * @return boolean
-     */
-    public function checkUniqueColumn($column, $value)
-    {
-        $flag = false;
-        if (empty($value)) return $flag;
-
-        $agents = Agent::where($column, '=', $value)->first();
-        if ($agents !== null) {
-            $flag = true;
-        }
-        return $flag;
-    }
 }

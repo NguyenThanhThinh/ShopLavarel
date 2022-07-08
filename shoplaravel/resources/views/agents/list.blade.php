@@ -38,7 +38,7 @@
                         @foreach($agents as $no => $item)
                             <tr>
                                 <td>{{$no + 1}}</td>
-                                <td>{{ Str::limit($item->name, 13) }}</td>
+                                <td>{{ Str::limit($item->name, 20) }}</td>
                                 <td>{{$item->phone}}</td>
                                 <td>{{ Str::limit($item->bank_code, 13) }}</td>
                                 <td>{{ Str::limit($item->branch_code, 13) }}</td>

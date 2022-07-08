@@ -36,7 +36,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="phone">電話番号</label>
                     <div class="col">
-                        <input type="number" name="phone1" placeholder="0909" class="form-control"
+                        <input type="number"  name="phone1" placeholder="0909" class="form-control"
                                value="{{old('phone1') ? old('phone1') : $agent->phone1}}">
                         @error('phone1')
                         <p class="text-red">{{ $message }}</p>
