@@ -80,7 +80,9 @@ class LoginController extends Controller
             $rules['newPassword'] = $rules['newPassword'] . '|regex:/[!@#$%^&*-_+=]/';
             $messages['newPassword.regex'] = 'Mật khẩu phải có ích nhất một ký tự đặc biệt';
         }
+
         $validator = Validator::make($request->all(), $rules, $messages);
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
@@ -89,7 +91,6 @@ class LoginController extends Controller
                 Session::flash('error', 'Mật khẩu hiện tại không tồn tại');
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-
             $user->password = Hash::make($request->newPassword);
 
             $user->save();
