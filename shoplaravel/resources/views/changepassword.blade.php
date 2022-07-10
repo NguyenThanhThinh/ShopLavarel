@@ -32,9 +32,6 @@
                         @error('oldPassword')
                         <p class="text-red">{{ $message }}</p>
                         @enderror
-                        @if (Session::has('error'))
-                            <p class="text-red"> {{ Session::get('error') }}</p>
-                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
