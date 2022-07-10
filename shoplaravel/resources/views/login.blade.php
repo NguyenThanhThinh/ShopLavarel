@@ -5,6 +5,9 @@
     <title>Login</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
     <link rel="stylesheet" href="{{ asset('css/login_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css"
+          integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 <div class="login-wrap">
@@ -47,5 +50,6 @@
         </div>
     </div>
 </div>
+@include("layouts.message")
 </body>
 </html>

@@ -20,4 +20,5 @@
     <link href="/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css"/>
     @yield('css-agent')
+    @yield('css-changpassword')
 </head>

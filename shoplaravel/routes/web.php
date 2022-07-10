@@ -18,32 +18,34 @@ use \App\Http\Controllers\AgentController;
 */
 
 
-Route::get('/', function (){
-return view('login');
+Route::get('/', function () {
+    return view('login');
 })->name('login');
 
-Route::post('/',[LoginController::class,'login']);
+Route::post('/', [LoginController::class, 'login']);
 
-Route::get('/logout',[LogoutController::class,'getLogout'])->name('logout');
+Route::get('/logout', [LogoutController::class, 'getLogout'])->name('logout');
 
-Route::group(['middleware' => 'auth', 'timeout'], function (){
-    Route::get('/home',[HomeController::class,'index'])->name('home');
+Route::group(['middleware' => 'auth', 'timeout'], function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
     Route::group(['prefix' => 'agents'], function () {
-            Route::get('/',[AgentController::class,'index'])->name('agent_index');
+        Route::get('/', [AgentController::class, 'index'])->name('agent_index');
 
-            Route::get('/create',[AgentController::class,'create'])->name('create');
+        Route::get('/create', [AgentController::class, 'create'])->name('create');
 
-            Route::post('/add-agent',[AgentController::class,'store'])->name('store');
+        Route::post('/add-agent', [AgentController::class, 'store'])->name('store');
 
-            Route::get('/edit/{id}',[AgentController::class,'edit'])->name('edit');
+        Route::get('/edit/{id}', [AgentController::class, 'edit'])->name('edit');
 
-            Route::post('/edit/{id}',[AgentController::class,'update'])->name('edit');
+        Route::post('/edit/{id}', [AgentController::class, 'update'])->name('edit');
 
-            Route::delete('/delete/{id}',[AgentController::class,'delete']);
-
+        Route::delete('/delete/{id}', [AgentController::class, 'delete']);
 
     });
+
+    Route::get('/change-password', [LoginController::class, 'changePassword'])->name('changePassword');
+    Route::post('/update-change-password', [LoginController::class, 'updateChangePassword'])->name('updateChangePassword');
 });
 
